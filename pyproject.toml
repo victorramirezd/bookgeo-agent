@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "bookgeo"
+version = "0.1.0"
+description = "LangGraph-based AI agent that extracts and geocodes locations from English/Spanish books."
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "bookgeo" }]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+spacy = "^3.7.0"
+langdetect = "^1.0.9"
+pydantic = "^2.8.0"
+requests = "^2.32.0"
+typer = { version = "^0.12.0", extras = ["all"] }
+googlemaps = "^4.10.0"
+pandas = "^2.2.0"
+langchain = "^0.3.0"
+langgraph = "^0.2.0"
+python-dotenv = "^1.0.1"
+folium = "^0.17.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.0"
+
+[tool.poetry.scripts]
+bookgeo = "bookgeo.cli:app"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
