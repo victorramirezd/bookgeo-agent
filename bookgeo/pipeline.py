@@ -80,18 +80,6 @@ def _write_outputs(real_places: Iterable[RealPlace], fictional_places: Iterable[
         m.save(output_dir / "places_map.html")
 
 
-def process_text(
-    text: str,
-    lang: str | None = None,
-    config: Config = DEFAULT_CONFIG,
-) -> Tuple[str, List[RealPlace], List[FictionalPlace]]:
-    """Process a raw text string and return language plus place results without writing files."""
-    language = resolve_language(text, lang)
-    mentions, _ = extract_locations(text, language, config)
-    real_places, fictional_places = _mentions_to_places(mentions, language, config)
-    return language, real_places, fictional_places
-
-
 def run_pipeline(
     path: str,
     output_dir: str,
@@ -101,6 +89,8 @@ def run_pipeline(
 ) -> Tuple[List[RealPlace], List[FictionalPlace]]:
     output_path = resolve_output_dir(output_dir)
     text = load_text(path, limit_chars=limit_chars)
-    language, real_places, fictional_places = process_text(text, lang=lang, config=config)
+    language = resolve_language(text, lang)
+    mentions, _ = extract_locations(text, language, config)
+    real_places, fictional_places = _mentions_to_places(mentions, language, config)
     _write_outputs(real_places, fictional_places, output_path, generate_map=config.generate_map)
     return real_places, fictional_places
