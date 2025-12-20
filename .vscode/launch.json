@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug bookgeo run",
+      "type": "python",
+      "request": "launch",
+      "module": "bookgeo",
+      "args": [
+        "run",
+        "${workspaceFolder}/bookgeo/samples/sample_book_en.txt",
+        "--output-dir",
+        "${workspaceFolder}/outputs"
+      ],
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
