@@ -1,16 +1,23 @@
 {
   "version": "0.2.0",
   "configurations": [
+    
     {
-      "name": "Debug bookgeo run",
+      "name": "Debug bookgeo run (es, outliers)",
       "type": "python",
       "request": "launch",
-      "module": "bookgeo",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "module": "bookgeo.cli",
       "args": [
         "run",
-        "${workspaceFolder}/bookgeo/samples/sample_book_en.txt",
+        "${workspaceFolder}/bookgeo/samples/sample_book_es.txt",
         "--output-dir",
-        "${workspaceFolder}/outputs"
+        "${workspaceFolder}/outputs",
+        "--chunk-chars",
+        "1200",
+        "--temperature",
+        "0.3",
+        "--validate-outliers"
       ],
       "envFile": "${workspaceFolder}/.env"
     }

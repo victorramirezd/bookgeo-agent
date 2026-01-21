@@ -26,7 +26,19 @@ def geocode_place(name: str, language: str, config: Config) -> Optional[dict]:
 
 def geocode_confidence(result: dict) -> str:
     types = result.get("types", [])
-    if "locality" in types or "country" in types:
+    high_types = {
+        "locality",
+        "country",
+        "administrative_area_level_1",
+        "administrative_area_level_2",
+        "street_address",
+        "premise",
+        "route",
+        "point_of_interest",
+        "park",
+        "establishment",
+    }
+    if any(t in types for t in high_types):
         return "high"
     if "political" in types:
         return "medium"

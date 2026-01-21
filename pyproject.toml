@@ -18,6 +18,8 @@ pandas = "^2.2.0"
 python-dotenv = "^1.0.1"
 folium = "^0.17.0"
 openai = "^1.55.0"
+langchain-core = "^0.3.0"
+langchain-openai = "^0.2.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.0"
