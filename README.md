@@ -37,6 +37,8 @@ Options:
 - `--lang` : `en` or `es`. If omitted, the language is detected; non-en/es abort.
 - `--limit-chars` : process only a prefix of the text (useful for tests).
 - `--chunk-chars` : text chunk size (characters) fed to the LLM.
+- `--temperature` : LLM temperature (raise slightly for more recall).
+- `--validate-outliers` : run an extra LangChain check to flag geocodes that look contextually out of place.
 
 ## Outputs
 - `real_places.json`: list of resolved places with normalized name/address, lat/lng, language, confidence, and mentions.
@@ -71,4 +73,4 @@ poetry run pytest
 See `.env.example`:
 - `GOOGLE_MAPS_API_KEY` (required for geocoding)
 - `OPENAI_API_KEY` (required for LLM extraction)
-- `BOOKGEO_ENABLE_LLM` (optional bool, default false)
+- `BOOKGEO_ENABLE_LLM` (optional bool, default false; also enables outlier validation when `--validate-outliers` is used)

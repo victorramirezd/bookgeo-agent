@@ -29,20 +29,32 @@ def run(
     lang: Optional[str] = typer.Option(None, help="Language code (en|es). If omitted, auto-detect."),
     limit_chars: Optional[int] = typer.Option(None, help="Limit characters for quick runs."),
     chunk_chars: Optional[int] = typer.Option(3000, help="Chunk size (chars) for LLM extraction."),
+    temperature: Optional[float] = typer.Option(0.2, help="LLM temperature; raise slightly (e.g., 0.2-0.3) for more recall."),
+    validate_outliers: bool = typer.Option(False, help="Use LLM (LangChain) to flag outlier geocodes."),
 ):
     """LLM-based extraction of place mentions (uses OpenAI)."""
-    real_places, fictional_places = run_pipeline_llm(
+    if validate_outliers:
+        # enable_llm_enhancement gates the validation call inside the pipeline
+        DEFAULT_CONFIG.enable_llm_enhancement = True  # type: ignore[attr-defined]
+
+    language, real_places, fictional_places, outliers = run_pipeline_llm(
         str(path),
         output_dir=str(output_dir),
         lang=lang,
         limit_chars=limit_chars,
         config=DEFAULT_CONFIG,
         chunk_chars=chunk_chars,
+        temperature=temperature,
     )
     typer.secho(
-        f"LLM run processed {len(real_places)} real places and {len(fictional_places)} fictional entries.",
+        f"LLM run (language: {language}) processed {len(real_places)} real places and {len(fictional_places)} fictional entries.",
         fg=typer.colors.GREEN,
     )
+    if validate_outliers:
+        if outliers:
+            typer.secho(f"Flagged outlier candidates: {', '.join(outliers)}", fg=typer.colors.YELLOW)
+        else:
+            typer.secho("No outlier candidates flagged by LLM validator.", fg=typer.colors.YELLOW)
 
 
 if __name__ == "__main__":
